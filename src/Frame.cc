@@ -701,7 +701,6 @@ void Frame::RemoveOutliers(const cv::Mat &imGray, const cv::Mat &imDepth, const 
 	if(boxes.size() > 0){
 
 		for (size_t i(0); i < mvKeys.size(); ++i){
-	
 			bool bool_key = false;
 			int n_people = 0;
 			while(n_people < boxes.size()){
@@ -767,7 +766,9 @@ void Frame::RemoveOutliers(const cv::Mat &imGray, const double &timeStamp, ORBex
 	int offset = 5;
 	
 	std::vector<cv::Rect> boxes;
+    std::vector<cv::Mat> boxMasks;
 	boxes = detectedBoxes;
+    boxMasks = detectedBoxMasks;
 	cv::Rect box1;
 	
 	if(boxes.size() > 0){
@@ -779,7 +780,10 @@ void Frame::RemoveOutliers(const cv::Mat &imGray, const double &timeStamp, ORBex
 			while(n_people < boxes.size()){
 				box1 = boxes[n_people];			
 				if(mvKeys[i].pt.y > box1.y - offset && mvKeys[i].pt.y < box1.y + box1.height + offset && mvKeys[i].pt.x > box1.x - offset && mvKeys[i].pt.x < box1.x + box1.width + offset){
-					bool_key = true;
+					int localX = mvKeys[i].pt.y - box1.x;
+                    int localY = mvKeys[i].pt.y - box1.y;
+                    
+                    bool_key = (boxMasks[n_people].at<uchar>(localY, localX) == 255);//true;                    
 				}
 				n_people++;
 
@@ -837,7 +841,9 @@ void Frame::RemoveOutliers(const cv::Mat &imLeft, const cv::Mat &imRight, const 
 	int offset = 5;
 	
 	std::vector<cv::Rect> boxes;
+    std::vector<cv::Mat> boxMasks;
 	boxes = detectedBoxes;
+    boxMasks = detectedBoxMasks;
 	cv::Rect box1;
 	
 	if(boxes.size() > 0){
@@ -849,7 +855,10 @@ void Frame::RemoveOutliers(const cv::Mat &imLeft, const cv::Mat &imRight, const 
 			while(n_people < boxes.size()){
 				box1 = boxes[n_people];			
 				if(mvKeys[i].pt.y > box1.y - offset && mvKeys[i].pt.y < box1.y + box1.height + offset && mvKeys[i].pt.x > box1.x - offset && mvKeys[i].pt.x < box1.x + box1.width + offset){
-					bool_key = true;
+					int localX = mvKeys[i].pt.y - box1.x;
+                    int localY = mvKeys[i].pt.y - box1.y;
+                    
+                    bool_key = (boxMasks[n_people].at<uchar>(localY, localX) == 255);//true;
 				}
 				n_people++;
 

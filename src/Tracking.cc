@@ -287,9 +287,47 @@ cv::Mat Tracking::GrabImageRGBD(const cv::Mat &imRGB,const cv::Mat &imD, const d
 	mCurrentFrame.SetBoxes(mpDetector->people_boxes);
     // send detected boMasks to Frame
     mCurrentFrame.SetBoxMasks(mpDetector->people_masks);// send detected boMasks to Frame
-    mCurrentFrame.SetBoxMasks(mpDetector->people_masks);
 	// remove dynamic features	
 	mCurrentFrame.RemoveOutliers(mImGray,imDepth,timestamp,mpORBextractorLeft,mpORBVocabulary,mK,mDistCoef,mbf,mThDepth);
+    std::vector<cv::Rect> boxes = mpDetector->people_boxes;
+    std::vector<cv::Mat> boxMasks = mpDetector->people_masks;
+    cv::Rect box1;
+    cv::Mat mask;
+    int offset = 5;
+    if(boxes.size() > 0){
+
+		for (size_t i(0); i < boxes.size(); ++i){
+			bool bool_key = false;
+			int n_people = 0;
+			while(n_people < boxes.size()){
+				box1 = boxes[n_people];
+                mask = boxMasks[n_people];
+                cv::rectangle(mImGray, box1, cv::Scalar(255), 2);
+                //cv::rectangle(imGray, box1, cv::Scalar(0, 255, 0), 2, 8);
+                string label = "person";
+                cv::putText(mImGray, label, cv::Point(box1.x, box1.y), cv::HersheyFonts::FONT_HERSHEY_SIMPLEX, 1, cv::Scalar(128,128,128), 2);
+                //cv::addWeighted(mImGray, 0.5, mask, 0.5, 0, mImGray); //add mask to src
+                // Resize mask to the exact dimensions of the bounding box
+                cv::resize(mask, mask, box1.size());
+
+                // Create a region of interest (ROI) in the original image where the mask will be applied
+                cv::Mat imgROI = mImGray(box1);
+
+                // Make sure the mask has the same type as the image
+                if (mask.type() != imgROI.type()) {
+                    mask.convertTo(mask, imgROI.type());
+                }
+
+                // Use cv::addWeighted to blend the mask with the image ROI
+                // cv::Mat blendedROI;
+                double alpha = 0.5;  // Weight of the imgROI
+                double beta = 0.5;   // Weight of the mask
+                cv::addWeighted(imgROI, alpha, mask, beta, 0.0, imgROI);
+				n_people++;
+
+            }
+		}
+	}    
 
     Track();
 

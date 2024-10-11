@@ -1,41 +1,16 @@
-# Crowd-SLAM
+# Feature-Filtering-Dynamic-SLAM
 
-Crowd-SLAM is a visual SLAM system that is robust in crowded scenarios.
-
-Demonstration video: https://www.youtube.com/watch?v=LeS8MEVaR2E
-
-Paper: https://link.springer.com/article/10.1007/s10846-021-01414-1
-
-<img src="images/example.png"
-width="773" height="489" /></a>
-<!--img src="images/MOT20-01_CYTi.jpg" 
-width="960" height="540" /></a!-->
-
-# License
-
-Crowd-SLAM is released under a GPLv3 License.
-
-If you use Crowd-SLAM in an academic work, please cite:
-
-    @article{soaresJINT2021,
-      title={Crowd-{SLAM}: Visual {SLAM} Towards Crowded Environments using Object Detection},
-      author={Soares, J. C. V., Gattass, M. and Meggiolaro, M. A.},
-      journal={Journal of Intelligent & Robotic Systems},
-      volume={102},
-      number={50},
-      doi = {https://doi.org/10.1007/s10846-021-01414-1},
-      year={2021}
-     }
+Feature-Filtering-Dynamic-SLAM is a visual SLAM system that is robust in presence of dynamic objects in scenarios.
      
-# Building Crowd-SLAM
+# Building Feature-Filtering-Dynamic-SLAM
 - Install ORB-SLAM2 prerequisites: C++11 or C++0x Compiler, Pangolin, OpenCV and Eigen3  (https://github.com/raulmur/ORB_SLAM2).
 - Clone the repository:
 ```
-git clone https://github.com/virgolinosoares/Crowd-SLAM
+git clone https://github.com/yoganandamv/Feature-Filtering-SLAM-for-Dynamic-Indoor-Environments
 ```
 - Execute:
 ```
-cd Crowd-SLAM
+cd Feature-Filtering-SLAM-for-Dynamic-Indoor-Environments
 chmod +x build.sh
 ./build.sh
 ```
@@ -58,4 +33,4 @@ We have tested the library in **Ubuntu 18.04**, with OpenCV 3.4.
   ```
 
 # Acknowledgements
-Our code builds on [ORB-SLAM2](https://github.com/raulmur/ORB_SLAM2).
+Our code builds on [ORB-SLAM2](https://github.com/raulmur/ORB_SLAM2) and [Crowd-SLAM](https://github.com/yoganandamv/Feature-Filtering-SLAM-for-Dynamic-Indoor-Environments/).
